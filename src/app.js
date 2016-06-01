@@ -1,20 +1,23 @@
 import ReactDOM from 'react-dom';
 import React from 'react';
-
-import InsuranceView from './InsuranceView';
+import {Table} from 'Reactable';
 import _ from 'lodash';
+
+const format = (num) => num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
 fetch("https://crest-tq.eveonline.com/insuranceprices/")
 .then(response => response.json())
 .then(response => response.items)
-.then(itemList => _.map(itemList, item => {
+.then(itemList => _.map(itemList, ({type, insurance}) => {
     return {
-        name:item.type.name,
-        id_str: item.type.id_str,
-        payout: _.last(item.insurance).payout,
-        cost: _.last(item.insurance).cost
+        Name:type.name,
+        Id: type.id_str,
+        Payout: format(_.last(insurance).payout),
+        Cost: format(_.last(insurance).cost),
+        Margin: format(_.last(insurance).payout - _.last(insurance).cost)
     };
 }))
+
 .then(formatedItemList => {
-    ReactDOM.render(<InsuranceView props={formatedItemList}/>, document.getElementById('app'));
+    ReactDOM.render(<Table  data={formatedItemList} filterable={['Name']}/>, document.getElementById('app'));
 })
