@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 import {Table} from 'Reactable';
 import _ from 'lodash';
+import "./app.css";
 
 const format = (num) => num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
