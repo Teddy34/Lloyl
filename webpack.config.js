@@ -8,6 +8,7 @@ module.exports = {
 		filename: 'appBundle.js'
 	},
 	module: {
+		noParse: [/localforage/],
 		loaders: [{
 			test: /\.css$/,
 			loader: ExtractTextPlugin.extract("style-loader", "css-loader")
